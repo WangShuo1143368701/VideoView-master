@@ -12,7 +12,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements TextureVie
 
 {
     private TextureView mTextureView;
-    private SurfaceTexture mSurfaceTexture;
     private VideoDecoder VideoDecoder;
     private Surface mSurface;
 
@@ -29,7 +28,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements TextureVie
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1)
     {
-        mSurfaceTexture = surfaceTexture;
         mSurface = new Surface(surfaceTexture);
 
         new Thread(new Runnable()
@@ -37,13 +35,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements TextureVie
             @Override
             public void run()
             {
-                try
-                {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
                 VideoDecoder = new VideoDecoder(Environment.getExternalStorageDirectory().getPath()+"/360.mp4",mSurface);
                 VideoDecoder.start();
             }
@@ -60,6 +51,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements TextureVie
     @Override
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture)
     {
+        VideoDecoder.stop(true);
         return false;
     }
 

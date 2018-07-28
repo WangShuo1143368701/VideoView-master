@@ -27,26 +27,21 @@ public class VideoDecoder {
     private boolean isEOS = false;
     private int index;
     private long framestamp;
-    private long endMs = -1;
 
     public VideoDecoder(String videoPath, Surface surface) {
         mVideoPath =  videoPath;
         mDecoderSurface = surface;
     }
 
-    public void setVideoPath(String path) {
-        mVideoPath = path;
-    }
-
     public void start() {
         try {
-            internalStart();
+            Start();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void internalStart() throws Exception {
+    private void Start() throws Exception {
         extractor = new MediaExtractor();
         extractor.setDataSource(mVideoPath);
 
@@ -69,19 +64,6 @@ public class VideoDecoder {
         decoder.start();
         inputBuffers = decoder.getInputBuffers();
         decodeNext();
-    }
-
-    public void seek(long ptsMs) {
-        if (extractor != null) {
-            extractor.seekTo(ptsMs, MediaExtractor.SEEK_TO_PREVIOUS_SYNC);
-        }
-    }
-
-    public void seek(long ptsMs,long endMs) {
-        if (extractor != null) {
-            this.endMs = endMs;
-            extractor.seekTo(ptsMs, MediaExtractor.SEEK_TO_PREVIOUS_SYNC);
-        }
     }
 
     public void decodeNext() {
@@ -131,12 +113,15 @@ public class VideoDecoder {
                     index++;
                     decoder.releaseOutputBuffer(outIndex, true);
                     framestamp = info.presentationTimeUs;
-                    //break outerloop; //这里退出循环，可以根据时间解码出一帧图片。 不退出循环就是一个解码器。
+
+                    try
+                    {
+                        Thread.sleep(35);
+                    } catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
                     break;
-            }
-            if(extractor.getSampleTime() > endMs && endMs > 0){//当前时间超过结束时间就停止解码 退出循环。
-                endMs = -1;
-                break;
             }
         }
     }
