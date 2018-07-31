@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Surface;
 import android.view.TextureView;
+import com.ws.videoview.AudioDecoderThread;
 import com.ws.videoview.VideoDecoder;
 
 public class VideoPlayerActivity extends AppCompatActivity implements TextureView.SurfaceTextureListener
@@ -39,6 +40,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements TextureVie
                 VideoDecoder.start();
             }
         }).start();
+        AudioDecoderThread audioDecoderThread = new AudioDecoderThread();
+        audioDecoderThread.startPlay(Environment.getExternalStorageDirectory().getPath()+"/360.mp4");
 
     }
 

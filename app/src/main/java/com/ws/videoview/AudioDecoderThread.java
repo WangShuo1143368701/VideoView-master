@@ -28,11 +28,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-/**
- * 
- * @author taehwan
- *
- */
+
 public class AudioDecoderThread {
 	private static final int TIMEOUT_US = 1000;
 	private MediaExtractor mExtractor;
@@ -44,7 +40,7 @@ public class AudioDecoderThread {
 
 	/**
 	 * 
-	 * @param filePath
+	 * @param path
 	 */
 	public void startPlay(String path) {
 		eosReceived = false;
