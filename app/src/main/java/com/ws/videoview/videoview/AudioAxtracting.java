@@ -86,8 +86,8 @@ public class AudioAxtracting {
             mMediaExtractor.advance();
             audioInfo.offset = 0;
             audioInfo.size = sampleSize;
+            audioInfo.presentationTimeUs = presentationTimeUs;
             mMediaMuxer.writeSampleData(audioTrackIndex, inputBuffer, audioInfo);
-            audioInfo.presentationTimeUs = presentationTimeUs;//presentationTimeUs;
         }
         //全部写完后释放MediaMuxer和MediaExtractor
         mMediaMuxer.stop();
