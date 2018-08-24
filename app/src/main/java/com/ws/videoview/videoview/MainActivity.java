@@ -64,6 +64,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(i);
             }
         });
+        findViewById(R.id.extractingAudio).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent i=new Intent(MainActivity.this,AxtractingAudioActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     @Override

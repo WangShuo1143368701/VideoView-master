@@ -23,7 +23,7 @@
         android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:id="@+id/SurfaceBtn" />
 
     <Button
@@ -33,7 +33,7 @@
         android:layout_below="@+id/SurfaceBtn"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:id="@+id/TextureBtn"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
@@ -45,7 +45,7 @@
         android:layout_below="@+id/TextureBtn"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:id="@+id/cameraBtn" />
 
     <Button
@@ -55,7 +55,7 @@
         android:layout_below="@id/cameraBtn"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:id="@+id/videoBtn" />
     <Button
         android:text="firstFrame"
@@ -64,7 +64,7 @@
         android:layout_below="@id/videoBtn"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:id="@+id/firstFrame" />
 
     <Button
@@ -74,6 +74,16 @@
         android:layout_below="@id/firstFrame"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:id="@+id/httpRangebtn" />
+
+    <Button
+        android:text="extractingAudio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/httpRangebtn"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp"
+        android:id="@+id/extractingAudio" />
 </RelativeLayout>
