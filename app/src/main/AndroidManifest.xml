@@ -4,6 +4,7 @@
 
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 	<uses-permission android:name="android.permission.CAMERA"/>
+	<uses-permission android:name="android.permission.INTERNET" />
 
 	<application
 		android:allowBackup="true"
@@ -22,6 +23,10 @@
 		<activity android:name=".TextureActivity"/>
 		<activity android:name=".CameraTextureActivity"/>
 		<activity android:name=".VideoPlayerActivity">
+		</activity>
+		<activity android:name=".FirstFrameActivity">
+		</activity>
+		<activity android:name=".HttpRangeActivity">
 		</activity>
 	</application>
 

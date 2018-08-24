@@ -43,6 +43,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(i2);
             }
         });
+
+        findViewById(R.id.firstFrame).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent i=new Intent(MainActivity.this,FirstFrameActivity.class);
+
+                startActivity(i);
+            }
+        });
+
+        findViewById(R.id.httpRangebtn).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent i=new Intent(MainActivity.this,HttpRangeActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     @Override
