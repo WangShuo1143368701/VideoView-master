@@ -94,7 +94,20 @@ public class AudioAxtracting {
         mMediaMuxer.release();
         mMediaExtractor.release();
         mMediaExtractor = null;
+        if(mAudioAxtractingListener != null){
+            mAudioAxtractingListener.onClipAudioComplete();
+        }
         return true;
+    }
+
+
+    private AudioAxtractingListener mAudioAxtractingListener;
+
+    public void setAudioAxtractingListener(AudioAxtractingListener axtractingListener){
+            this.mAudioAxtractingListener = axtractingListener;
+    }
+    public interface AudioAxtractingListener{
+        void onClipAudioComplete();
     }
 
     public void stop(){
