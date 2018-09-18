@@ -5,6 +5,7 @@ import android.media.MediaCodec;
 import android.media.MediaExtractor;
 import android.media.MediaFormat;
 import android.media.MediaMuxer;
+import android.os.Build;
 import android.util.Log;
 
 import java.nio.ByteBuffer;
@@ -14,16 +15,17 @@ public class AudioAxtracting {
     private MediaFormat mMediaFormat;
     private MediaMuxer mMediaMuxer;
     private String mime = null;
-    private int sampleRate;
     private long pts = 0;
     private long audioSampleTime;
 
-    public boolean clipAudio(String path,String outPath) {
+    public boolean clipAudio(String path, String outPath) {
         return clipAudio(path,0,0,outPath);
     }
 
     public boolean clipAudio(String url, long clipPoint, long clipDuration, String outPath) {
-
+        if(Build.VERSION.SDK_INT < 18 ){
+            return false;
+        }
         int audioTrackIndex = -1;
         int audioMaxInputSize = 0;
         int sourceATrack = 0;
@@ -46,7 +48,7 @@ public class AudioAxtracting {
                 mime = mMediaFormat.getString(MediaFormat.KEY_MIME);
                 if (mime.startsWith("audio/")) {
                     sourceATrack = i;
-                    sampleRate = mMediaFormat.getInteger(MediaFormat.KEY_SAMPLE_RATE);
+                    int sampleRate = mMediaFormat.getInteger(MediaFormat.KEY_SAMPLE_RATE);
                     int channelCount = mMediaFormat.getInteger(MediaFormat.KEY_CHANNEL_COUNT);
                     audioMaxInputSize = mMediaFormat.getInteger(MediaFormat.KEY_MAX_INPUT_SIZE);
                     audioDuration = mMediaFormat.getLong(MediaFormat.KEY_DURATION);
@@ -64,8 +66,12 @@ public class AudioAxtracting {
             }
         }
 
+        if(audioTrackIndex == -1){
+            Log.e(TAG, "no audio Track");
+            return false;
+        }
         //音频部分
-        ByteBuffer inputBuffer = ByteBuffer.allocate(960);
+        ByteBuffer inputBuffer = ByteBuffer.allocate(audioMaxInputSize);
         mMediaMuxer.start();
         mMediaExtractor.selectTrack(sourceATrack);
         MediaCodec.BufferInfo audioInfo = new MediaCodec.BufferInfo();
@@ -93,10 +99,8 @@ public class AudioAxtracting {
                 mMediaExtractor.unselectTrack(sourceATrack);
                 break;
             }
-            int trackIndex = mMediaExtractor.getSampleTrackIndex();
             long presentationTimeUs = mMediaExtractor.getSampleTime();
-            Log.d(TAG, "sampleSize is " + sampleSize
-                    + ";presentationTimeUs is " + presentationTimeUs);
+            Log.d(TAG,"presentationTimeUs is " + presentationTimeUs);
             if ((clipDuration != 0) && (presentationTimeUs > (clipPoint + clipDuration))) {
                 mMediaExtractor.unselectTrack(sourceATrack);
                 break;
@@ -114,10 +118,7 @@ public class AudioAxtracting {
             mMediaMuxer.writeSampleData(audioTrackIndex, inputBuffer, audioInfo);
         }
         //全部写完后释放MediaMuxer和MediaExtractor
-        mMediaMuxer.stop();
-        mMediaMuxer.release();
-        mMediaExtractor.release();
-        mMediaExtractor = null;
+        stop();
         if(mAudioAxtractingListener != null){
             mAudioAxtractingListener.onClipAudioComplete();
         }
@@ -128,13 +129,16 @@ public class AudioAxtracting {
     private AudioAxtractingListener mAudioAxtractingListener;
 
     public void setAudioAxtractingListener(AudioAxtractingListener axtractingListener){
-            this.mAudioAxtractingListener = axtractingListener;
+        this.mAudioAxtractingListener = axtractingListener;
     }
     public interface AudioAxtractingListener{
         void onClipAudioComplete();
     }
 
     public void stop(){
+        if(Build.VERSION.SDK_INT < 18 ){
+            return;
+        }
         if(mMediaMuxer != null){
             mMediaMuxer.stop();
             mMediaMuxer.release();
