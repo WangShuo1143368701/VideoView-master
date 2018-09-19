@@ -47,7 +47,7 @@ public class AxtractingAudioActivity extends AppCompatActivity
                 });
 
                 audioAxtracting.clipAudio(
-                        Environment.getExternalStorageDirectory().getPath() + "/vtmp" + "/noaudio.mp4",2*1000*1000,7*1000*1000,Environment.getExternalStorageDirectory().getPath()+"/aaaaa_output3.aac");
+                        Environment.getExternalStorageDirectory().getPath() + "/vtmp" + "/youxi.mp4",2*1000*1000,15*1000*1000,Environment.getExternalStorageDirectory().getPath()+"/aaaaa_output3.aac");
 
                 //audioAxtracting.clipAudio(
                 //        Environment.getExternalStorageDirectory().getPath() + "/" + "1.mp4",Environment.getExternalStorageDirectory().getPath()+"/aaaaa_output3.aac");

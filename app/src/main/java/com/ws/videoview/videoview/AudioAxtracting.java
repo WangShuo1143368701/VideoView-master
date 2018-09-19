@@ -17,6 +17,7 @@ public class AudioAxtracting {
     private String mime = null;
     private long pts = 0;
     private long audioSampleTime;
+    private int sampleRate;
 
     public boolean clipAudio(String path, String outPath) {
         return clipAudio(path,0,0,outPath);
@@ -48,7 +49,7 @@ public class AudioAxtracting {
                 mime = mMediaFormat.getString(MediaFormat.KEY_MIME);
                 if (mime.startsWith("audio/")) {
                     sourceATrack = i;
-                    int sampleRate = mMediaFormat.getInteger(MediaFormat.KEY_SAMPLE_RATE);
+                    sampleRate = mMediaFormat.getInteger(MediaFormat.KEY_SAMPLE_RATE);
                     int channelCount = mMediaFormat.getInteger(MediaFormat.KEY_CHANNEL_COUNT);
                     audioMaxInputSize = mMediaFormat.getInteger(MediaFormat.KEY_MAX_INPUT_SIZE);
                     audioDuration = mMediaFormat.getLong(MediaFormat.KEY_DURATION);
@@ -78,19 +79,19 @@ public class AudioAxtracting {
         audioInfo.presentationTimeUs = 0;
 
         //获取音频帧时长
-        {
-            mMediaExtractor.readSampleData(inputBuffer, 0);
-            //skip first sample
-            if (mMediaExtractor.getSampleTime() == 0)
-                mMediaExtractor.advance();
-            mMediaExtractor.readSampleData(inputBuffer, 0);
-            long firstAudioPTS = mMediaExtractor.getSampleTime();
-            mMediaExtractor.advance();
-            mMediaExtractor.readSampleData(inputBuffer, 0);
-            long SecondAudioPTS = mMediaExtractor.getSampleTime();
-            audioSampleTime = Math.abs(SecondAudioPTS - firstAudioPTS);
-            Log.d(TAG, "AudioSampleTime is " + audioSampleTime);
-        }
+//        {
+//            mMediaExtractor.readSampleData(inputBuffer, 0);
+//            //skip first sample
+//            if (mMediaExtractor.getSampleTime() == 0)
+//                mMediaExtractor.advance();
+//            mMediaExtractor.readSampleData(inputBuffer, 0);
+//            long firstAudioPTS = mMediaExtractor.getSampleTime();
+//            mMediaExtractor.advance();
+//            mMediaExtractor.readSampleData(inputBuffer, 0);
+//            long SecondAudioPTS = mMediaExtractor.getSampleTime();
+//            audioSampleTime = Math.abs(SecondAudioPTS - firstAudioPTS);
+//            Log.d(TAG, "AudioSampleTime is " + audioSampleTime);
+//        }
 
         mMediaExtractor.seekTo(clipPoint, MediaExtractor.SEEK_TO_CLOSEST_SYNC);
         while (true) {
@@ -111,7 +112,8 @@ public class AudioAxtracting {
             if(clipPoint == 0 && clipDuration == 0){
                 audioInfo.presentationTimeUs = presentationTimeUs;
             }else {
-                pts += audioSampleTime;
+                //pts += audioSampleTime;//某些音频的PTS不对，不能使用。
+                pts += 1024*1000*1000 / sampleRate;
                 audioInfo.presentationTimeUs = pts;
                 Log.i(TAG, "writeSampleData pts =" + pts);
             }
