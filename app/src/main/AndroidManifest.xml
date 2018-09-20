@@ -30,6 +30,11 @@
 		</activity>
 		<activity android:name=".AxtractingAudioActivity">
 		</activity>
+		<activity
+			android:name=".genpai.GenPaiActivity"
+			android:label="@string/title_activity_gen_pai"
+			android:theme="@style/AppTheme.NoActionBar">
+		</activity>
 	</application>
 
 </manifest>

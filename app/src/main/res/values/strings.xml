@@ -1,3 +1,4 @@
 <resources>
 	<string name="app_name">VideoView</string>
+	<string name="title_activity_gen_pai">GenPaiActivity</string>
 </resources>

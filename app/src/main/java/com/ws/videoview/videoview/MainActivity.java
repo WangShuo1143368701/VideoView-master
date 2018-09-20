@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import com.ws.videoview.videoview.genpai.GenPaiActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -70,6 +71,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View view)
             {
                 Intent i=new Intent(MainActivity.this,AxtractingAudioActivity.class);
+                startActivity(i);
+            }
+        });
+        findViewById(R.id.genpai).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent i=new Intent(MainActivity.this,GenPaiActivity.class);
                 startActivity(i);
             }
         });
